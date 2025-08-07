@@ -1,0 +1,36 @@
+# sbt build output
+/target/
+/project/target/
+/project/project/
+
+# Metals and Bloop
+.bloop/
+.metals/
+/.bsp/
+
+# VS Code
+.vscode/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# MacOS
+.DS_Store
+
+# Linux
+*~
+
+# Windows
+Thumbs.db
+
+# Logs
+*.log
+
+# Scala worksheets
+*.worksheet.sc
+
+# User-specific files
+*.swp
+*.swo
