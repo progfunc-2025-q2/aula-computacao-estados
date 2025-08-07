@@ -1,72 +1,142 @@
-# Ambiente de desenvolvimento Scala com DevContainer
+# Computação com Estados - Mutável vs Imutável
 
-Este repositório contém um ambiente de desenvolvimento pré-configurado utilizando **DevContainer** para a disciplina de Programação Funcional em Scala.
+Este projeto demonstra os conceitos fundamentais de **computação com estados** em programação funcional, comparando abordagens **mutáveis** e **imutáveis** através de exemplos práticos em Scala.
 
-## O que é um DevContainer?
-Um DevContainer é um ambiente de desenvolvimento isolado, baseado em containers, que garante que todos os alunos tenham as mesmas ferramentas e configurações, facilitando o desenvolvimento e evitando problemas de incompatibilidade.
+## 📚 Conceitos Abordados
 
-## Ferramentas disponíveis
-- **Scala**: Linguagem principal do curso.
-- **Metals**: Extensão do VS Code que provê um language server para suporte avançado a Scala (autocompletar, lint, refatoração, etc).
-- **SBT**: Ferramenta de build para projetos Scala.
+### Estado Mutável vs Estado Imutável
+- **Estado Mutável**: Dados podem ser modificados após criação (efeitos colaterais)
+- **Estado Imutável**: Dados não podem ser modificados, novas versões são criadas
 
-## Como utilizar
+### Padrões Funcionais para Gerenciamento de Estado
+- Operações que retornam novos estados ao invés de modificar existentes
+- Uso de `foldLeft` e `scanLeft` para computações sequenciais
+- Preservação do histórico de estados em abordagens imutáveis
 
-### 1. Usando o GitHub Codespaces (recomendado)
-O **GitHub Codespaces** permite que você abra este projeto em um ambiente de desenvolvimento completo, direto no navegador, sem precisar instalar nada na sua máquina. Basta clicar no botão **"Code"** no repositório do GitHub e selecionar **"Open with Codespaces"** (ou "Abrir com Codespaces").
+## 🗂️ Estrutura do Projeto
 
-- O Codespaces já configura automaticamente o DevContainer.
-- Todas as ferramentas estarão prontas para uso.
-- Basta abrir o terminal integrado e usar os comandos normalmente (`sbt compile`, `sbt run`, etc).
-- **Esta é a forma preferencial de uso, pois elimina problemas de configuração local.**
+### Arquivos Fonte
 
-### 2. Usando Docker e VS Code localmente
-Caso prefira rodar localmente:
+#### `src/main/scala/Counters.scala`
+Demonstra a diferença entre contadores mutáveis e imutáveis:
 
-1. **Pré-requisitos**:
-   - Tenha o [Docker](https://www.docker.com/) instalado em sua máquina.
-   - Instale o [Visual Studio Code](https://code.visualstudio.com/) e a extensão [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+- **`mutableCounter`**: 
+  - Object singleton com estado mutável compartilhado
+  - Operações modificam diretamente o estado interno
+  - Efeitos colaterais visíveis
 
-2. **Abrindo o projeto no DevContainer**:
-   - Abra o VS Code na pasta deste projeto.
-   - Clique no canto inferior esquerdo (><) e selecione "Reabrir no Container" (ou use o comando `Dev Containers: Reopen in Container`).
-   - Aguarde o container ser criado e inicializado.
+- **`immutableCounter`**: 
+  - Case class imutável 
+  - Operações retornam novos contadores
+  - Estados anteriores preservados
 
-3. **Utilizando as ferramentas**:
-   - O terminal já estará configurado com Scala e SBT.
-   - Use o comando `sbt` para compilar, rodar e testar seus programas.
-   - A extensão Metals estará ativa, oferecendo recursos como autocompletar, navegação de código e sugestões.
+#### `src/main/scala/MutableAccount.scala`
+Implementação de conta bancária com estado mutável:
 
-4. **Executando seu código**:
-   - No terminal, utilize:
-     - `sbt compile` para compilar o projeto.
-     - `sbt run` para executar o programa principal.
-     - `sbt test` para rodar os testes (se houver).
+- Classe com campo `balance` mutável
+- Métodos `deposit` e `withdraw` modificam estado interno
+- Demonstra problemas de efeitos colaterais
 
-## Usando o Scala REPL
+#### `src/main/scala/ImmutableAccount.scala`
+Implementação de conta bancária com estado imutável usando 5 abordagens diferentes:
 
-O **Scala REPL** (Read-Eval-Print Loop) é um interpretador interativo que permite testar pequenos trechos de código Scala rapidamente, sem precisar criar arquivos ou compilar o projeto inteiro.
+1. **`statefulComputationWithValBindings`**: 
+   - Uso de val bindings para encadear operações
+   - Cada operação retorna (saldo, nova_conta)
 
-Para abrir o REPL dentro do DevContainer (no Codespaces ou localmente):
+2. **`statefulComputationWithFoldLeft1`**: 
+   - Uso de `foldLeft` com lista de operações
+   - Foco no resultado final
 
-1. Abra o terminal integrado do VS Code.
-2. Digite o comando:
-   
-   ```bash
-   scala
-   ```
-   ou, se preferir usar o SBT console (com dependências do projeto):
-   ```bash
-   sbt console
-   ```
-3. Você poderá digitar comandos Scala e ver o resultado imediatamente.
+3. **`statefulComputationWithFoldLeft2`**: 
+   - Versão mais concisa usando syntax sugar (`_`)
+   - Demonstra elegância funcional
 
-O REPL é útil para experimentar funções, testar expressões e aprender Scala de forma interativa.
+4. **`statefulComputationWithFoldLeftAndHistory`**: 
+   - `foldLeft` que mantém histórico de saldos
+   - Acumulador como tupla (conta, histórico)
 
-## Dicas
-- Sempre que atualizar dependências ou arquivos de configuração, reinicie o container para garantir que tudo funcione corretamente.
-- Consulte a documentação do [Metals](https://scalameta.org/metals/) e do [SBT](https://www.scala-sbt.org/) para tirar dúvidas sobre as ferramentas.
+5. **`statefulComputationWithScanLeft`**: 
+   - Uso de `scanLeft` para todos os estados intermediários
+   - Preserva todos os estados da computação
 
+## 🎯 Objetivos de Aprendizagem
+
+Após estudar este projeto, você deve compreender:
+
+1. **Diferenças fundamentais** entre estado mutável e imutável
+2. **Vantagens da imutabilidade** na programação funcional
+3. **Padrões funcionais** para computação com estados
+4. **Uso prático** de `foldLeft` e `scanLeft` 
+5. **Como preservar histórico** em computações funcionais
+
+## 🚀 Como Executar
+
+### Executar todos os exemplos:
+```bash
+sbt run
+```
+
+### Executar exemplos específicos:
+```bash
+# Contador mutável
+sbt "runMain mutableCounter.testCounter"
+
+# Contador imutável  
+sbt "runMain immutableCounter.testCounter"
+
+# Conta mutável
+sbt "runMain mutableAccount.testAccount"
+
+# Contas imutáveis (diferentes abordagens)
+sbt "runMain immutableAccount.statefulComputationWithValBindings"
+sbt "runMain immutableAccount.statefulComputationWithFoldLeft1"
+sbt "runMain immutableAccount.statefulComputationWithFoldLeft2"
+sbt "runMain immutableAccount.statefulComputationWithFoldLeftAndHistory"
+sbt "runMain immutableAccount.statefulComputationWithScanLeft"
+```
+
+## 🔍 Experimentos Sugeridos
+
+1. **Compare as saídas** dos exemplos mutáveis vs imutáveis
+2. **Modifique as operações** bancárias e observe o comportamento
+3. **Implemente novas operações** (transferência, juros, etc.)
+4. **Analise o histórico** gerado pelas abordagens imutáveis
+5. **Teste a concorrência** com múltiplas threads (mutável vs imutável)
+
+## 💡 Pontos de Reflexão
+
+- Por que a imutabilidade é preferível em programação funcional?
+- Como `foldLeft` e `scanLeft` diferem em suas aplicações?
+- Quais são os trade-offs entre performance e segurança?
+- Como aplicar estes conceitos em projetos reais?
 ---
 
-Qualquer dúvida, entre em contato com o professor ou com o grupo de colegas da disciplina.
+## 🛠️ Ambiente de Desenvolvimento
+
+Este projeto utiliza **DevContainer** para garantir um ambiente consistente de desenvolvimento.
+
+### Ferramentas Incluídas
+- **Scala**: Linguagem principal
+- **Metals**: Language server para VS Code com recursos avançados
+- **SBT**: Ferramenta de build para projetos Scala
+
+### Como Utilizar
+
+#### 1. GitHub Codespaces (Recomendado)
+- Clique em **"Code"** → **"Open with Codespaces"**
+- Ambiente completo no navegador, sem instalação local
+- Todas as ferramentas pré-configuradas
+
+#### 2. VS Code + Docker (Local)
+1. Instale [Docker](https://www.docker.com/) e [VS Code](https://code.visualstudio.com/)
+2. Instale a extensão [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+3. Abra o projeto no VS Code
+4. Selecione "Reabrir no Container"
+
+### Comandos Básicos
+```bash
+sbt compile    # Compila o projeto
+sbt run        # Executa todos os exemplos
+sbt console    # Abre o REPL Scala
+```
