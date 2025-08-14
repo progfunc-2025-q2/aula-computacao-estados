@@ -1,6 +1,9 @@
 // Example of bank account with immutable state (functional)
 package immutableAccount
 
+sealed trait AccountError
+case class InsufficientFunds(balance: Double, amount: Double) extends AccountError
+
 // Immutable case class - balance cannot be modified after creation
 case class Account(balance: Double = 0.0) {
 
@@ -16,6 +19,15 @@ case class Account(balance: Double = 0.0) {
   def withdraw(amount: Double): (Double, Account) = {
     val newBalance = balance - amount          // Calculates new balance
     (newBalance, Account(newBalance))         // Returns tuple with balance and new account
+  }
+
+  def withdraw2(amount: Double): (Either[AccountError, Double], Account) = {
+    if (amount > balance) {
+      (Left(InsufficientFunds(balance, amount)), this)
+    } else {
+      val newBalance = balance - amount
+      (Right(newBalance), Account(newBalance))
+    }
   }
 }
 

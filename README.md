@@ -60,6 +60,27 @@ Implementação de conta bancária com estado imutável usando 5 abordagens dife
    - Uso de `scanLeft` para todos os estados intermediários
    - Preserva todos os estados da computação
 
+#### `src/main/scala/FoldLeft.scala`
+Demonstra computações com estado usando `foldLeft`, incluindo tratamento de erros e histórico de operações:
+
+- Encadeamento de operações sobre contas imutáveis
+- Impressão de saldos intermediários
+- Coleta de histórico de saldos e tratamento de erros
+
+#### `src/main/scala/AggregateFunctions.scala`
+Exemplos de funções agregadoras usando `foldLeft` e `foldRight`:
+
+- Soma e subtração de listas
+- Demonstração da diferença entre agregação à esquerda e à direita
+- Uso de sintaxe concisa para funções agregadoras
+
+#### `src/main/scala/Accumulator.scala`
+Acumulação de saldos e estados de conta através de operações encadeadas:
+
+- Case class para acumular histórico de saldos
+- Encadeamento funcional de operações bancárias
+- Demonstração de como preservar o histórico completo de estados
+
 ## 🎯 Objetivos de Aprendizagem
 
 Após estudar este projeto, você deve compreender:
@@ -134,9 +155,4 @@ Este projeto utiliza **DevContainer** para garantir um ambiente consistente de d
 3. Abra o projeto no VS Code
 4. Selecione "Reabrir no Container"
 
-### Comandos Básicos
-```bash
-sbt compile    # Compila o projeto
-sbt run        # Executa todos os exemplos
-sbt console    # Abre o REPL Scala
-```
+
