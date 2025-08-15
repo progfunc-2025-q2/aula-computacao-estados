@@ -81,6 +81,34 @@ Acumulação de saldos e estados de conta através de operações encadeadas:
 - Encadeamento funcional de operações bancárias
 - Demonstração de como preservar o histórico completo de estados
 
+#### `src/main/scala/Sequencing.scala`
+Encadeamento de mônadas tomando como exemplo a mônada Option:
+- Exemplos de uso de match, flatMap e for-comprehension para compor funções que podem falhar.
+- Demonstra como tratar ausência de valor de forma funcional.
+
+#### `src/main/scala/MonadLawsOption.scala`
+Demonstração das leis de mônada para Option:
+- Verifica as leis de identidade à esquerda, identidade à direita e associatividade.
+- Mostra como Option se comporta como mônada em Scala.
+
+#### `src/main/scala/OptionMonad.scala`
+Propriedades de Option como mônada:
+- Demonstra pure e flatMap.
+- Exemplos de composição de funções que podem falhar.
+- Uso de Option para modelar ausência de valor.
+
+#### `src/main/scala/Comprehensions.scala`
+Uso de for-comprehension com Either e listas:
+- Composição de funções que podem retornar erro usando Either.
+- Exemplos de for-comprehension com listas e filtragem.
+- Demonstração de tratamento de erros heterogêneos.
+
+#### `src/main/scala/CounterState.scala`
+Computações de estado com um contador:
+- Uso do tipo State para modelar operações sobre um contador.
+- Sequenciamento de operações e preservação do estado.
+- Exemplos de composição funcional de operações de incremento e decremento.
+
 ## 🎯 Objetivos de Aprendizagem
 
 Após estudar este projeto, você deve compreender:
